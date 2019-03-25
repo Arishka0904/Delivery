@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ProductServiceImplementation implements ProductService{
+public class ProductServiceImplementation implements ProductService {
 
-private ProductRepo productRepo;
+    private ProductRepo productRepo;
 
     public ProductServiceImplementation(ProductRepo productRepo) {
         this.productRepo = productRepo;
@@ -21,10 +21,19 @@ private ProductRepo productRepo;
     }
 
     @Override
-    public void saveProduct(Product product) {
+    public void saveProductInDB(Product product) {
 
-        productRepo.save(product); // TODO: 21.03.2019 Можно переписать, сравнивать каждое поле с прерыдущим значением, и сохранять только если изменилось
+        productRepo.save(product);
     }
 
+    @Override
+    public boolean isProductExist(Product product) {
 
+        Product productFromDb = productRepo.findByProductName(product.getProductName());
+
+        if (productFromDb == null) {
+            return false;
+        }
+        return true;
+    }
 }

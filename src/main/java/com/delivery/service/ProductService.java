@@ -8,5 +8,7 @@ import java.util.List;
 public interface ProductService {
     public List<Product> findAll();
 
-    public void saveProduct(Product product);
+    public void saveProductInDB(Product product);
+
+    public boolean isProductExist(Product product);
 }

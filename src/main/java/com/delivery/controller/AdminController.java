@@ -10,8 +10,10 @@ import com.delivery.service.UserServiceImplementation;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Map;
 
 @Controller
@@ -60,6 +62,7 @@ public class AdminController {
 
         return "productList";
     }
+
     @GetMapping("/product/{product}")
     public String productEditForm(@PathVariable Product product, Model model) {
         model.addAttribute("product", product);
@@ -67,22 +70,37 @@ public class AdminController {
 
         return "productEdit";
     }
+
     @PostMapping("/product")
-    public String productSave(@ModelAttribute("productId") Product product
-    ) {
-        productServiceImplementation.saveProduct(product);
+    public String saveProductEditForm(@ModelAttribute("productId") Product product) {
+
+        productServiceImplementation.saveProductInDB(product);
 
         return "redirect:/product";
     }
+
     @GetMapping("/product/add")
     public String productAddForm() {
 
+
         return "productAdd";
     }
+
     @PostMapping("/product/add")
-    public String productAdd(@ModelAttribute Product product
-    ) {
-        productServiceImplementation.saveProduct(product);
+    public String addNewProduct(@ModelAttribute @Valid Product product,
+                                BindingResult bindingResult, Model model) {
+
+        if (productServiceImplementation.isProductExist(product)) {
+            model.addAttribute("productNameError", "Product already exists!");
+            return "productAdd";
+        }
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
+            model.mergeAttributes(errors);
+            return "productAdd";
+        }
+
+        productServiceImplementation.saveProductInDB(product);
 
         return "redirect:/product";
     }

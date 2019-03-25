@@ -7,10 +7,10 @@
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">ProductName</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" name="productName" value="${product.productName}"/>
+                <input type="text" name="productName" value="${product.productName}"
+                       class="form-control" required/>
             </div>
         </div>
-
         <fieldset class="form-group">
             <div class="row">
                 <legend class="col-form-label col-sm-2 pt-0">Category</legend>
@@ -42,46 +42,48 @@
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Price</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" name="price" value="${product.price}"/>
+                <input type="number" step="0.01" min="0.01" class="form-control" name="price"
+                       value="<#setting locale = "en_US">${product.price?string("##0.00")}" required/>
             </div>
         </div>
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Width</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" name="width" value="${product.width}"/>
+                <input type="number" step="1" min="1" class="form-control" name="width" value="${product.width}" required/>
             </div>
         </div>
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Depth</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" name="depth" value="${product.depth}"/>
+                <input type="number" step="1" min="1" class="form-control" name="depth" value="${product.depth}" required/>
             </div>
         </div>
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Height</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" name="height" value="${product.height}"/>
+                <input type="number" step="1" min="1" class="form-control" name="height" value="${product.height}" required/>
             </div>
         </div>
 
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Weight</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" name="weight" value="${product.weight}"/>
+                <input type="number" step="1" min="1" class="form-control" name="weight" value="${product.weight}" required/>
             </div>
         </div>
 
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">QuantityOnPallet</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" name="quantityOnPallet" value="${product.quantityOnPallet}"/>
+                <input type="number" step="1" min="1" class="form-control"
+                       name="quantityOnPallet" value="${product.quantityOnPallet}" required/>
             </div>
         </div>
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">QuantityInWarehouse</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" name="quantityInWarehouse"
-                       value="${product.quantityInWarehouse}"/>
+                <input type="number" step="1" min="0" class="form-control"
+                       name="quantityInWarehouse" value="${product.quantityInWarehouse}" required/>
             </div>
         </div>
 

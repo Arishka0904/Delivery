@@ -21,7 +21,7 @@
                 <td>${product.id}</td>
                 <td>${product.productName}</td>
                 <td>${product.category}</td>
-                <td>${product.price}</td>
+                <td><#setting locale = "en_US">${product.price?string("#,##0.00")}</td>
                 <td>${product.quantityOnPallet}</td>
                 <td>${product.quantityInWarehouse}</td>
                 <td><a href="/product/${product.id}">edit</a></td>

@@ -18,12 +18,13 @@ import java.math.BigDecimal;
 public class Product {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @NotBlank(message = "ProductName can not be empty")
     private String productName;
 
+    @NotNull(message = "Product category can not be empty")
     @Enumerated(EnumType.STRING)
     private Category category;
 
@@ -45,6 +46,6 @@ public class Product {
     @NotNull(message = "QuantityOnPallet can not be empty")
     private int quantityOnPallet;
 
-
+    @NotNull(message = "QuantityInWarehouse can not be empty")
     private int quantityInWarehouse;
 }

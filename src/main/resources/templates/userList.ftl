@@ -3,12 +3,12 @@
 <@c.page>
     List of users
 
-    <table>
+    <table class="table">
         <thead>
         <tr>
-            <th>Name</th>
-            <th>Role</th>
-            <th></th>
+            <th scope="col">Name</th>
+            <th scope="col">Role</th>
+            <th scope="col"></th>
         </tr>
         </thead>
         <tbody>
