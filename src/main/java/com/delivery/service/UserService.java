@@ -13,7 +13,7 @@ public interface UserService {
 
     public boolean activateUser(String code);
 
-    public void saveUser(User user, String username, Map<String, String> form);
+    public void updateUserRole(User user, String username, Map<String, String> form);
 
     public void updateProfile(User user, String password, String email);
 

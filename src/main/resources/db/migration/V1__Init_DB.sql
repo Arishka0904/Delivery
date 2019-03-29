@@ -1,11 +1,6 @@
-create table hibernate_sequence (next_val bigint) engine=MyISAM;
-
-insert into hibernate_sequence values ( 1 );
-insert into hibernate_sequence values ( 1 );
-
 
 create table product (
-    id bigint not null,
+    id bigint not null AUTO_INCREMENT,
     product_name varchar(255) not null,
     category varchar(255) not null,
     price DECIMAL(10,2) not null,
@@ -18,7 +13,7 @@ create table product (
     primary key (id)) engine=MyISAM;
 
 create table user (
-    id bigint not null,
+    id bigint not null AUTO_INCREMENT,
     activation_code varchar(255),
     active bit not null,
     email varchar(255),

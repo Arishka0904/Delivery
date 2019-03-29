@@ -101,7 +101,7 @@ public class UserServiceImplementation implements UserDetailsService, UserServic
     }
 
     @Override
-    public void saveUser(User user, String username, Map<String, String> form) {
+    public void updateUserRole(User user, String username, Map<String, String> form) {
         user.setUsername(username);
 
         Set<String> roles = Arrays.stream(Role.values())

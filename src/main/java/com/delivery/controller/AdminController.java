@@ -51,7 +51,7 @@ public class AdminController {
             @RequestParam Map<String, String> form,
             @RequestParam("userId") User user
     ) {
-        userServiceImplementation.saveUser(user, username, form);
+        userServiceImplementation.updateUserRole(user, username, form);
 
         return "redirect:/user";
     }
