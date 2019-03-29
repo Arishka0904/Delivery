@@ -32,5 +32,5 @@
 
     <input type="hidden" value="${_csrf.token}" name="_csrf"/>
 
-    <td><a href="/product/add">Add new product</a></td>
+    <td><a class="form-group row mb-5" href="/product/add">Add new product</a></td>
 </@c.page>

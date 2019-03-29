@@ -7,8 +7,7 @@
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">ProductName</label>
             <div class="col-sm-10">
-                <input type="text" name="productName" value="${product.productName}"
-                       class="form-control" required/>
+                <h3>${product.productName}</h3>
             </div>
         </div>
         <fieldset class="form-group">
