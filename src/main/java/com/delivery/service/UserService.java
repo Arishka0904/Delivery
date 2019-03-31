@@ -2,6 +2,7 @@ package com.delivery.service;
 
 import com.delivery.domain.User;
 
+import java.util.List;
 import java.util.Map;
 
 public interface UserService {
@@ -12,6 +13,8 @@ public interface UserService {
     public boolean isEmailExist(User user);
 
     public boolean activateUser(String code);
+
+    public List<User> findAll();
 
     public void updateUserRole(User user, String username, Map<String, String> form);
 

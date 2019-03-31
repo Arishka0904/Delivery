@@ -10,6 +10,7 @@ create table product (
     width integer not null,
     quantity_on_pallet integer not null,
     quantity_in_warehouse integer,
+    current_version bit,
     primary key (id)) engine=MyISAM;
 
 create table user (

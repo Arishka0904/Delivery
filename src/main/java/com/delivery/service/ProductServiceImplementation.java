@@ -16,13 +16,31 @@ public class ProductServiceImplementation implements ProductService {
     }
 
     @Override
-    public List<Product> findAll() {
-        return productRepo.findAll();
+    public List<Product> findAllCurrentProduct() {
+        return productRepo.findAllByCurrentVersionTrue();
     }
 
     @Override
-    public void saveProductInDB(Product product) {
+    public void updateProductInDB(Product product) {
 
+        Product productFromDB = productRepo.findProductById(product.getId());
+
+        if (!product.equals(productFromDB)) {
+
+            productFromDB.setCurrentVersion(false);
+            productRepo.save(productFromDB);
+            product.setId(null);
+            addNewProductInDB(product);
+
+        } else if (product.getQuantityInWarehouse() != productFromDB.getQuantityInWarehouse()) {
+
+            productRepo.save(product);
+        }
+    }
+
+    @Override
+    public void addNewProductInDB(Product product) {
+        product.setCurrentVersion(true);
         productRepo.save(product);
     }
 

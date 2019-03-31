@@ -3,7 +3,6 @@ package com.delivery.service;
 import com.delivery.domain.Role;
 import com.delivery.domain.User;
 import com.delivery.repository.UserRepo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,13 +16,16 @@ import java.util.stream.Collectors;
 @Service
 public class UserServiceImplementation implements UserDetailsService, UserService {
 
-    @Autowired
+
     private UserRepo userRepo;
-    @Autowired
     private MailSender mailSender;
-    @Autowired
     private PasswordEncoder passwordEncoder;
 
+    public UserServiceImplementation(UserRepo userRepo, MailSender mailSender, PasswordEncoder passwordEncoder) {
+        this.userRepo = userRepo;
+        this.mailSender = mailSender;
+        this.passwordEncoder = passwordEncoder;
+    }
 
 
     @Override
@@ -95,7 +97,7 @@ public class UserServiceImplementation implements UserDetailsService, UserServic
 
         return true;
     }
-
+    @Override
     public List<User> findAll() {
         return userRepo.findAll();
     }

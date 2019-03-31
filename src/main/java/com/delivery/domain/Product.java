@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 
 @Getter
 @Setter
-@EqualsAndHashCode(of = {"id"})
+@EqualsAndHashCode(exclude = {"quantityInWarehouse", "isCurrentVersion"})
 @ToString(of = {"id", "productName", "quantityInWarehouse"})
 @NoArgsConstructor
 
@@ -48,4 +48,7 @@ public class Product {
 
     @NotNull(message = "QuantityInWarehouse can not be empty")
     private int quantityInWarehouse;
+
+    private boolean currentVersion;// TODO: 31.03.2019 Спросить в бд не поддерживается названия типа isCurrentVersion
+
 }

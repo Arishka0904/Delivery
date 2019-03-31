@@ -58,7 +58,7 @@ public class AdminController {
 
     @GetMapping("/product")
     public String productList(Model model) {
-        model.addAttribute("products", productServiceImplementation.findAll());
+        model.addAttribute("products", productServiceImplementation.findAllCurrentProduct());
 
         return "productList";
     }
@@ -72,9 +72,9 @@ public class AdminController {
     }
 
     @PostMapping("/product")
-    public String saveProductEditForm(@ModelAttribute("productId") Product product) {
+    public String saveProductEditForm(@ModelAttribute("productId") Product product) { // TODO: 31.03.2019 Изменить  @ModelAttribute на @RequestBody Добавить js
 
-        productServiceImplementation.saveProductInDB(product);
+        productServiceImplementation.updateProductInDB(product);
 
         return "redirect:/product";
     }
@@ -100,7 +100,7 @@ public class AdminController {
             return "productAdd";
         }
 
-        productServiceImplementation.saveProductInDB(product);
+        productServiceImplementation.addNewProductInDB(product);
 
         return "redirect:/product";
     }

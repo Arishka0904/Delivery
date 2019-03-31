@@ -6,9 +6,12 @@ import com.delivery.domain.User;
 import java.util.List;
 
 public interface ProductService {
-    public List<Product> findAll();
 
-    public void saveProductInDB(Product product);
+    public List<Product> findAllCurrentProduct();
+
+    public void updateProductInDB(Product product);
+
+    public void addNewProductInDB(Product product);
 
     public boolean isProductExist(Product product);
 }
