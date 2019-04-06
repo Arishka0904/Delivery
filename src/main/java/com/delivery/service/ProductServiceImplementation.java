@@ -32,8 +32,8 @@ public class ProductServiceImplementation implements ProductService {
             product.setId(null);
             addNewProductInDB(product);
 
-        } else if (product.getQuantityInWarehouse() != productFromDB.getQuantityInWarehouse()) {
-
+        } else if ((product.getQuantityInWarehouse() != productFromDB.getQuantityInWarehouse()) ||
+                (product.isCurrentVersion() != productFromDB.isCurrentVersion())) {
             productRepo.save(product);
         }
     }

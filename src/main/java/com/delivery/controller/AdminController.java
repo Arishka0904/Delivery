@@ -5,6 +5,7 @@ import com.delivery.domain.Category;
 import com.delivery.domain.Product;
 import com.delivery.domain.Role;
 import com.delivery.domain.User;
+import com.delivery.domain.dto.ProductDto;
 import com.delivery.service.ProductServiceImplementation;
 import com.delivery.service.UserServiceImplementation;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -46,7 +47,7 @@ public class AdminController {
 
 
     @PostMapping("/user")
-    public String userSave(
+    public String updateUserRole(
             @RequestParam String username,
             @RequestParam Map<String, String> form,
             @RequestParam("userId") User user
@@ -57,14 +58,15 @@ public class AdminController {
     }
 
     @GetMapping("/product")
-    public String productList(Model model) {
+    public String getProductList(Model model) {
         model.addAttribute("products", productServiceImplementation.findAllCurrentProduct());
 
         return "productList";
     }
 
     @GetMapping("/product/{product}")
-    public String productEditForm(@PathVariable Product product, Model model) {
+    public String getProductEdit(@PathVariable Product product, Model model) {
+
         model.addAttribute("product", product);
         model.addAttribute("categories", Category.values());
 
@@ -72,9 +74,9 @@ public class AdminController {
     }
 
     @PostMapping("/product")
-    public String saveProductEditForm(@ModelAttribute("productId") Product product) { // TODO: 31.03.2019 Изменить  @ModelAttribute на @RequestBody Добавить js
+    public String saveProductEdit(@ModelAttribute ProductDto product) {
 
-        productServiceImplementation.updateProductInDB(product);
+        productServiceImplementation.updateProductInDB(product.buildProduct());
 
         return "redirect:/product";
     }
@@ -87,10 +89,10 @@ public class AdminController {
     }
 
     @PostMapping("/product/add")
-    public String addNewProduct(@ModelAttribute @Valid Product product,
+    public String addNewProduct(@ModelAttribute @Valid ProductDto product,
                                 BindingResult bindingResult, Model model) {
 
-        if (productServiceImplementation.isProductExist(product)) {
+        if (productServiceImplementation.isProductExist(product.buildProduct())) {
             model.addAttribute("productNameError", "Product already exists!");
             return "productAdd";
         }
@@ -100,9 +102,8 @@ public class AdminController {
             return "productAdd";
         }
 
-        productServiceImplementation.addNewProductInDB(product);
+        productServiceImplementation.addNewProductInDB(product.buildProduct());
 
         return "redirect:/product";
     }
-
 }

@@ -85,8 +85,14 @@
                        name="quantityInWarehouse" value="${product.quantityInWarehouse}" required/>
             </div>
         </div>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1" value="true"
+                   name="currentVersion" <#if product.currentVersion==true>checked</#if>/>
+            <label class="form-check-label" for="exampleCheck1">Current version</label>
+        </div>
 
-        <input type="hidden" value="${product.id}" name="productId"/>
+        <input type="hidden" value="${product.id}" name="id"/>
+        <input type="hidden" value="${product.productName}" name="productName"/>
         <input type="hidden" value="${_csrf.token}" name="_csrf"/>
         <div class="form-group row">
             <div class="col-sm-10">

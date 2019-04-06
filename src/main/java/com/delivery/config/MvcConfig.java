@@ -18,7 +18,7 @@ public class MvcConfig implements WebMvcConfigurer {
 
     @Bean
     public PasswordEncoder getPasswordEncoder(){
-        return new MessageDigestPasswordEncoder("MD5"); // TODO: 11.03.2019 Чем можно заменить шифрование, new BCryptPasswordEncoder(8)? тогда как правильно задать шифровку в скриптах?
+        return new MessageDigestPasswordEncoder("MD5");
     }
 
 
