@@ -1,4 +1,4 @@
-package com.delivery;
+package com.delivery.controller;
 
 import com.delivery.controller.RegistrationController;
 import com.delivery.domain.dto.CaptchaResponseDto;

@@ -1,4 +1,4 @@
-package com.delivery;
+package com.delivery.controller;
 
 import com.delivery.controller.MainController;
 import org.junit.Test;
@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-@WithUserDetails("User1")
+@WithUserDetails("admin")
 public class MainControllerTest {
 
     @Autowired
@@ -28,15 +28,12 @@ public class MainControllerTest {
     private MainController controller;
 
     @Test
-    public void mainPageTest()throws Exception{
+    public void mainPageTest() throws Exception {           // TODO: 03.04.2019 доделать после добавления main page
         this.mockMvc.perform(get("/main"))
                 .andDo(print())
                 .andExpect(authenticated())
-
-        .andExpect(xpath("//*[@id='navbarSupportedContent']/div").string("User1"));
+                .andExpect(xpath("//*[@id='navbarSupportedContent']/div").string("admin"));
     }
-
-
 
 
 }

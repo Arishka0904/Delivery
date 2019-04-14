@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @EqualsAndHashCode(exclude = {"quantityInWarehouse", "isCurrentVersion"})
-@ToString(of = {"id", "productName", "quantityInWarehouse"})
+@ToString(of = {"id", "productName"})
 @NoArgsConstructor
 public class ProductDto {
 

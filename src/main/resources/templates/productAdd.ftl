@@ -59,7 +59,7 @@
             <div class="col-sm-10">
                 <input type="number" step="0.01" min="0.01" required
                        class="form-control ${(priceError??)?string('is-invalid', '')}" name="price"
-                       placeholder="Enter price" value="<#if product??>${product.price}</#if>" required/>
+                       placeholder="Enter price" value="<#if product??>${product.price}</#if>" />
                 <#if priceError??>
                     <div class="invalid-feedback">
                         ${priceError}
@@ -71,9 +71,9 @@
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Width</label>
             <div class="col-sm-10">
-                <input type="number" step="1" min="1" required
+                <input type="number" step="1" min="1" max="2147483647" required
                        class="form-control ${(widthError??)?string('is-invalid', '')}" name="width"
-                       placeholder="Enter width" value="<#if product??>${product.width}</#if>" required/>
+                       placeholder="Enter width" value="<#if product??>${product.width}</#if>" />
                 <#if widthError??>
                     <div class="invalid-feedback">
                         ${widthError}
@@ -85,9 +85,9 @@
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Depth</label>
             <div class="col-sm-10">
-                <input type="number" step="1" min="1" required
+                <input type="number" step="1" min="1" max="2147483647" required
                        class="form-control ${(depthError??)?string('is-invalid', '')}" name="depth"
-                       placeholder="Enter depth" value="<#if product??>${product.depth}</#if>" required/>
+                       placeholder="Enter depth" value="<#if product??>${product.depth}</#if>" />
                 <#if depthError??>
                     <div class="invalid-feedback">
                         ${depthError}
@@ -99,9 +99,9 @@
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Height</label>
             <div class="col-sm-10">
-                <input type="number" step="1" min="1" required
+                <input type="number" step="1" min="1" max="2147483647" required
                        class="form-control ${(heightError??)?string('is-invalid', '')}" name="height"
-                       placeholder="Enter height" value="<#if product??>${product.height}</#if>" required/>
+                       placeholder="Enter height" value="<#if product??>${product.height}</#if>" />
                 <#if heightError??>
                     <div class="invalid-feedback">
                         ${heightError}
@@ -113,9 +113,9 @@
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Weight</label>
             <div class="col-sm-10">
-                <input type="number" step="1" min="1" required
+                <input type="number" step="1" min="1" max="2147483647" required
                        class="form-control ${(weightError??)?string('is-invalid', '')}" name="weight"
-                       placeholder="Enter weight" value="<#if product??>${product.weight}</#if>" required/>
+                       placeholder="Enter weight" value="<#if product??>${product.weight}</#if>" />
 
                 <#if weightError??>
                     <div class="invalid-feedback">
@@ -128,10 +128,10 @@
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">QuantityOnPallet</label>
             <div class="col-sm-10">
-                <input type="number" step="1" min="1" required
+                <input type="number" step="1" min="1" max="2147483647"required
                        class="form-control ${(quantityOnPalletError??)?string('is-invalid', '')}"
                        name="quantityOnPallet" placeholder="Enter Quantity On Pallet"
-                       value="<#if product??>${product.quantityOnPallet}</#if>" required/>
+                       value="<#if product??>${product.quantityOnPallet}</#if>" />
                 <#if quantityOnPalletError??>
                     <div class="invalid-feedback">
                         ${quantityOnPalletError}
@@ -143,10 +143,10 @@
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">QuantityInWarehouse</label>
             <div class="col-sm-10">
-                <input type="number" step="1" min="0" required
+                <input type="number" step="1" min="0" max="2147483647" required
                        class="form-control ${(quantityInWarehouseError??)?string('is-invalid', '')}"
                        name="quantityInWarehouse" placeholder="Enter Quantity In Warehouse"
-                       value="<#if product??>${product.quantityInWarehouse}</#if>" required/>
+                       value="<#if product??>${product.quantityInWarehouse}</#if>" />
                 <#if quantityInWarehouseError??>
                     <div class="invalid-feedback">
                         ${quantityInWarehouseError}
@@ -155,8 +155,8 @@
             </div>
         </div>
 
-
         <input type="hidden" value="${_csrf.token}" name="_csrf"/>
+        <input type="hidden" value="true" name="currentVersion"/>
         <div class="form-group row">
             <div class="col-sm-10">
                 <button type="submit" class="btn btn-primary">Save</button>

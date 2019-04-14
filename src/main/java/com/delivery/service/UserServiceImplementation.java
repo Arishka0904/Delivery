@@ -126,7 +126,7 @@ public class UserServiceImplementation implements UserDetailsService, UserServic
         String userEmail = user.getEmail();
 
         boolean isEmailChanged = (email != null && !email.equals(userEmail)) ||
-                (userEmail != null && userEmail.equals(email));
+                (userEmail != null && !userEmail.equals(email));
 
         if (isEmailChanged) {
             user.setEmail(email);

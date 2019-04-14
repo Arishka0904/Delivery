@@ -40,7 +40,7 @@ public class ProductServiceImplementation implements ProductService {
 
     @Override
     public void addNewProductInDB(Product product) {
-        product.setCurrentVersion(true);
+
         productRepo.save(product);
     }
 

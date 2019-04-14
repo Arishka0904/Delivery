@@ -68,7 +68,6 @@ public class AdminController {
     public String getProductEdit(@PathVariable Product product, Model model) {
 
         model.addAttribute("product", product);
-        model.addAttribute("categories", Category.values());
 
         return "productEdit";
     }
@@ -83,16 +82,14 @@ public class AdminController {
 
     @GetMapping("/product/add")
     public String productAddForm() {
-
-
         return "productAdd";
     }
 
     @PostMapping("/product/add")
-    public String addNewProduct(@ModelAttribute @Valid ProductDto product,
+    public String addNewProduct(@ModelAttribute @Valid Product product,
                                 BindingResult bindingResult, Model model) {
 
-        if (productServiceImplementation.isProductExist(product.buildProduct())) {
+        if (productServiceImplementation.isProductExist(product)) {
             model.addAttribute("productNameError", "Product already exists!");
             return "productAdd";
         }
@@ -102,7 +99,7 @@ public class AdminController {
             return "productAdd";
         }
 
-        productServiceImplementation.addNewProductInDB(product.buildProduct());
+        productServiceImplementation.addNewProductInDB(product);
 
         return "redirect:/product";
     }

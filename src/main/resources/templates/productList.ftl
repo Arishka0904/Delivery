@@ -17,7 +17,7 @@
         </thead>
         <tbody>
         <#list products as product>
-            <tr>
+            <tr data-id="${product.id}">
                 <td>${product.id}</td>
                 <td>${product.productName}</td>
                 <td>${product.category}</td>

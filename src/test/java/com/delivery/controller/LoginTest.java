@@ -1,4 +1,4 @@
-package com.delivery;
+package com.delivery.controller;
 
 
 import com.delivery.controller.MainController;
@@ -7,6 +7,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -20,6 +22,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
+@TestPropertySource("/application-test.properties")
+@Sql(value = {"/create-user-before.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(value = {"/create-user-after.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 public class LoginTest {
 
     @Autowired
@@ -30,24 +35,23 @@ public class LoginTest {
 
     @Test
     public void contextLoads() throws Exception {
-        this.mockMvc.perform(get("/"))
+        this.mockMvc.perform(get("/login"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("Hello, guest")))
                 .andExpect(content().string(containsString("Please, login")));
     }
-
-    @Test
-    public void accessDeniedTest() throws Exception {
-        this.mockMvc.perform(get("/main"))
-                .andDo(print())
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("http://localhost/login"));
-    }
+// TODO: 07.04.2019 переделать доступ не по мейн, а по любой другой страничке юзера, недоступной без регистрации
+//    @Test
+//    public void accessDeniedTest() throws Exception {
+//        this.mockMvc.perform(get("/main"))
+//                .andDo(print())
+//                .andExpect(status().is3xxRedirection())
+//                .andExpect(redirectedUrl("http://localhost/login"));
+//    }
 
     @Test
     public void correctLoginTest() throws Exception {
-        this.mockMvc.perform(formLogin().user("User1").password("1"))
+        this.mockMvc.perform(formLogin().user("User1").password("123"))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/"));
@@ -60,4 +64,5 @@ public class LoginTest {
                 .andDo(print())
                 .andExpect(status().isForbidden());
     }
+
 }
