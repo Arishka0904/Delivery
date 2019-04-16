@@ -1,7 +1,6 @@
 package com.delivery.controller;
 
-
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -12,8 +11,8 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.hamcrest.core.StringContains.containsString;
-import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
+import static org.hamcrest.Matchers.containsString;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -23,31 +22,27 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestPropertySource("/application-test.properties")
-@WithUserDetails("User1")
-@Sql(value = {"/create-user-before.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-@Sql(value = {"/create-user-after.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-public class UserControllerTest {
-
+@Sql(value = {"/create-product-before.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(value = {"/create-product-after.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+class CategoryControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
-    private UserController userController;
+    private CategoryController categoryController;
 
     @Test
-    public void navbarShouldContainsUserName() throws Exception {
-        this.mockMvc.perform(get("/user/profile"))
+    public void shouldContainsTwoProductThirdCategory() throws Exception {
+        this.mockMvc.perform(get("/category/THIRD_CATEGORY"))
                 .andDo(print())
-                .andExpect(authenticated())
-                .andExpect(xpath("//*[@id=\"navbarSupportedContent\"]/div[3]").string(containsString("User1")));
+                .andExpect(content().string(containsString("List of product")))
+                .andExpect(xpath("/html/body/div/form/table/tbody/tr").nodeCount(2));
     }
-
     @Test
-    public void pageShouldContainsEmail() throws Exception {
-        this.mockMvc.perform(get("/user/profile"))
+    public void shouldNotContainsProductFirstCategory() throws Exception {
+        this.mockMvc.perform(get("/category/FIRST_CATEGORY"))
                 .andDo(print())
-                .andExpect(authenticated())
-                .andExpect(content().string(containsString("hena@fast-mail.one")));
+                .andExpect(content().string(containsString("List of product")))
+                .andExpect(xpath("/html/body/div/form/table/tbody/tr").nodeCount(0));
     }
-
 }

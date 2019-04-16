@@ -55,7 +55,7 @@ class ProductServiceImplementationTest {
 
     @Test
     void shouldSaveNothing() {
-        when(productRepo.findProductById(productFromDB.getId())).thenReturn(productFromDB);
+        when(productRepo.findProductById(productFromDB.getId())).thenReturn(product);
 
         productService.updateProductInDB(productFromDB);
 

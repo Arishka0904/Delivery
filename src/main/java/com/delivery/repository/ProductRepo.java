@@ -1,5 +1,6 @@
 package com.delivery.repository;
 
+import com.delivery.domain.Category;
 import com.delivery.domain.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -12,4 +13,7 @@ public interface ProductRepo extends JpaRepository<Product, Long> {
     Product findProductById(Long id);
 
     List<Product> findAllByCurrentVersionTrue();
+
+    List<Product> findAllByCategoryAndCurrentVersionTrue(Category category);
+
 }
