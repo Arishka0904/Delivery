@@ -10,27 +10,51 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
+        <#if isAdmin>
             <li class="nav-item">
-                <a class="nav-link" href="/">Home</a>
+                <a class="nav-link" href="/user" id="users">User list</a>
             </li>
-            <#if isAdmin>
-                <li class="nav-item">
-                    <a class="nav-link" href="/user">User list</a>
-                </li>
-            </#if>
-            <#if isAdmin>
-                <li class="nav-item">
-                    <a class="nav-link" href="/product">Products</a>
-                </li>
-            </#if>
-            <#if user??>
-                <li class="nav-item">
-                    <a class="nav-link" href="/user/profile">Profile</a>
-                </li>
-            </#if>
+        </#if>
+        <#if isAdmin>
+            <li class="nav-item">
+                <a class="nav-link" href="/product" id="products">Products</a>
+            </li>
+        </#if>
+        <#if user??>
+            <li class="nav-item">
+                <a class="nav-link" href="/user/profile">Profile</a>
+            </li>
+        </#if>
+        <li class="nav-item">
+            <a class="nav-link" href="/category/FIRST_CATEGORY">FIRST_CATEGORY</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/category/SECOND_CATEGORY">SECOND_CATEGORY</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/category/THIRD_CATEGORY">THIRD_CATEGORY</a>
+        </li>
+
         </ul>
 
-        <div class="navbar-text mr-3"><#if user??>${name}<#else>Please, login</#if></div>
+        <div class="navbar-text mr-3">
+            <a class="nav-link " href="/cart">
+                <i class="fa fa-shopping-cart"></i>
+                Cart
+            </a>
+        </div>
+
+        <#if user??>
+            <div class="navbar-text mr-3">
+                <a class="nav-link " href="/order">
+                    <i class="fa fa-list-ul"></i>
+                    Orders
+                </a>
+            </div>
+        </#if>
+        <div class="navbar-text mr-3">
+            <#if user??>${name}<#else>Please, login</#if>
+        </div>
         <@l.logout />
     </div>
 </nav>

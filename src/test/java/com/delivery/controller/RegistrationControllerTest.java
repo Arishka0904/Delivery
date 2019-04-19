@@ -1,6 +1,5 @@
 package com.delivery.controller;
 
-import com.delivery.controller.RegistrationController;
 import com.delivery.domain.dto.CaptchaResponseDto;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,8 +18,9 @@ import org.springframework.web.client.RestTemplate;
 
 import static org.hamcrest.core.StringContains.containsString;
 import static org.mockito.Mockito.mock;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -143,6 +143,7 @@ public class RegistrationControllerTest {
                 .andExpect(xpath("/html/body/div[1]/form/div[2]/div/div").exists())
                 .andExpect(content().string(containsString("Password are different!")));
     }
+
     @Test
     public void shouldReturnPasswordConfirmErrorMessage() throws Exception {
         mockCaptcha();

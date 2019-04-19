@@ -1,5 +1,6 @@
 package com.delivery.service;
 
+import com.delivery.domain.Category;
 import com.delivery.domain.Product;
 import com.delivery.repository.ProductRepo;
 import org.springframework.stereotype.Service;
@@ -53,5 +54,11 @@ public class ProductServiceImplementation implements ProductService {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public List<Product> findCurrentProductByCategory(Category category) {
+
+        return productRepo.findAllByCategoryAndCurrentVersionTrue(category);
     }
 }

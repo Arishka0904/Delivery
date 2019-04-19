@@ -1,18 +1,11 @@
 package com.delivery.controller;
 
-import com.delivery.controller.AdminController;
 import com.delivery.domain.Product;
-import com.delivery.domain.Role;
-import com.delivery.domain.User;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
@@ -20,13 +13,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequestBuilder;
 
-import java.nio.charset.Charset;
-import java.util.*;
-
 import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.hasValue;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -47,14 +38,14 @@ public class AdminControllerTest {
     @Autowired
     private AdminController adminController;
 
-//    @Test
-//    public void shouldContainsAdminNavbar() throws Exception {           // TODO: 03.04.2019 доделать после добавления main page
-//        this.mockMvc.perform(get("/main"))
-//                .andDo(print())
-//                .andExpect(authenticated())
-//                .andExpect(xpath("Подставить путь к навбару").string("Products"))
-//                .andExpect(xpath("").string("User list"));
-//    }
+    @Test
+    public void shouldContainsAdminNavbar() throws Exception {
+        this.mockMvc.perform(get("/"))
+                .andDo(print())
+                .andExpect(authenticated())
+                .andExpect(xpath("//*[@id=\"products\"]").string("Products"))
+                .andExpect(xpath("//*[@id=\"users\"]").string("User list"));
+    }
 
     @Test
     public void shouldContainsUserList() throws Exception {
@@ -69,7 +60,8 @@ public class AdminControllerTest {
         this.mockMvc.perform(get("/user"))
                 .andDo(print())
                 .andExpect(content().string(containsString("List of users")))
-                .andExpect(xpath("//*[@id=\"userList\"]/tr[2][@data-id=1]").string(containsString("USER, ADMIN")));
+                .andExpect(xpath("//*[@id=\"userList\"]/tr[2][@data-id=1]/td[2]").string(containsString("ADMIN")))
+                .andExpect(xpath("//*[@id=\"userList\"]/tr[2][@data-id=1]/td[2]").string(containsString("USER")));
     }
 
     @Test
@@ -78,21 +70,24 @@ public class AdminControllerTest {
                 .andDo(print())
                 .andExpect(xpath("//*[@id=\"ADMIN\"]").booleanValue(false));
     }
+
     @Test
     public void shouldContainsCurrentProductList() throws Exception {
         this.mockMvc.perform(get("/product"))
                 .andDo(print())
                 .andExpect(content().string(containsString("List of product")))
-                .andExpect(xpath("/html/body/div/table/tbody/tr").nodeCount(2));
+                .andExpect(xpath("/html/body/div/table/tbody/tr").nodeCount(4));
     }
+
     @Test
     public void shouldContainsProductData() throws Exception {
         this.mockMvc.perform(get("/product/2"))
                 .andDo(print())
                 .andExpect(model().size(1))
-                .andExpect(model(). attributeExists("product"))
+                .andExpect(model().attributeExists("product"))
                 .andExpect(xpath("/html/body/div/form/div[1]/div/h3").string(containsString("product2")));
     }
+
     @Test
     public void shouldRedirectToProductList() throws Exception {
 

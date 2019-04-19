@@ -1,5 +1,6 @@
 package com.delivery.service;
 
+import com.delivery.domain.Category;
 import com.delivery.domain.Product;
 import com.delivery.domain.User;
 
@@ -14,4 +15,7 @@ public interface ProductService {
     public void addNewProductInDB(Product product);
 
     public boolean isProductExist(Product product);
+
+    public List<Product> findCurrentProductByCategory(Category category);
+
 }

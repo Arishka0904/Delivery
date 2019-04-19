@@ -1,7 +1,6 @@
 package com.delivery.controller;
 
 
-import com.delivery.controller.MainController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +30,7 @@ public class LoginTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private MainController controller;
+    private UserController userController;
 
     @Test
     public void contextLoads() throws Exception {
@@ -40,14 +39,14 @@ public class LoginTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("Please, login")));
     }
-// TODO: 07.04.2019 переделать доступ не по мейн, а по любой другой страничке юзера, недоступной без регистрации
-//    @Test
-//    public void accessDeniedTest() throws Exception {
-//        this.mockMvc.perform(get("/main"))
-//                .andDo(print())
-//                .andExpect(status().is3xxRedirection())
-//                .andExpect(redirectedUrl("http://localhost/login"));
-//    }
+
+    @Test
+    public void accessDeniedTest() throws Exception {
+        this.mockMvc.perform(get("/user/profile"))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("http://localhost/login"));
+    }
 
     @Test
     public void correctLoginTest() throws Exception {
