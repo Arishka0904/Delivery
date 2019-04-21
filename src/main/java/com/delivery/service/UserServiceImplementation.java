@@ -39,7 +39,7 @@ public class UserServiceImplementation implements UserDetailsService, UserServic
     }
 
     @Override
-    public void addUser(User user) {
+    public void addNewUser(User user) {
 
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.USER));
@@ -97,6 +97,7 @@ public class UserServiceImplementation implements UserDetailsService, UserServic
 
         return true;
     }
+
     @Override
     public List<User> findAll() {
         return userRepo.findAll();
@@ -117,7 +118,6 @@ public class UserServiceImplementation implements UserDetailsService, UserServic
                 user.getRoles().add(Role.valueOf(key));
             }
         }
-
         userRepo.save(user);
     }
 

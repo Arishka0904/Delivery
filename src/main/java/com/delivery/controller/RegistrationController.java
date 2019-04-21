@@ -76,7 +76,7 @@ public class RegistrationController {
             model.addAttribute("emailError", "Email already exists!");
             return "registration";
         }
-        userServiceImplementation.addUser(user);
+        userServiceImplementation.addNewUser(user);
 
         return "redirect:/login";
     }

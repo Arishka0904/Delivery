@@ -42,10 +42,6 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    private Set<Order> orders;
-
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return getRoles();
