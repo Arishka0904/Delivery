@@ -19,5 +19,4 @@ public class OrderController {
     public String getProductList() {
         return "mainPage";
     }
-public class OrderController {
 }

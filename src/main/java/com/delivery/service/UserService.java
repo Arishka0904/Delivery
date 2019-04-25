@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface UserService {
-    public void addUser(User user);
+    public void addNewUser(User user);
 
     public boolean isUserExist(User user);
 

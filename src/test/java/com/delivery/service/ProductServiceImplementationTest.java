@@ -102,7 +102,5 @@ class ProductServiceImplementationTest {
     void shouldReturnFalseIfProductExist() {
         when(productRepo.findByProductName("Product1")).thenReturn(null);
         Assert.assertFalse(productService.isProductExist(product));
-
     }
-
 }

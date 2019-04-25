@@ -14,9 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -36,6 +34,7 @@ public class UserServiceImplementationTest {
     public void setUp() {
         user.setEmail("email@email.email");
         user.setUsername("User1");
+        user.setRoles(Collections.singleton(Role.USER));
     }
 
     @Test
@@ -48,7 +47,7 @@ public class UserServiceImplementationTest {
     @Test
     void shouldAddNewUser() {
 
-        userService.addUser(user);
+        userService.addNewUser(user);
 
         Assert.assertNotNull(user.getActivationCode());
         Assert.assertTrue(CoreMatchers.is(user.getRoles()).matches(Collections.singleton(Role.USER)));
@@ -117,7 +116,10 @@ public class UserServiceImplementationTest {
     @Test
     void updateUserRoleTest() {
 
-        user.setRoles(Collections.singleton(Role.USER));//todo проверить тест. не нравится клеар в методе
+        Set<Role> userRoles = new HashSet<>();
+        userRoles.add(Role.USER);
+        user.setRoles(userRoles);
+        user.setActive(true);
         user.setId(1l);
         Map<String, String> form = new LinkedHashMap<>();
 
@@ -153,8 +155,5 @@ public class UserServiceImplementationTest {
                         ArgumentMatchers.eq(user.getEmail()),
                         ArgumentMatchers.eq("Activation code"),
                         ArgumentMatchers.anyString());
-
     }
 }
-
-

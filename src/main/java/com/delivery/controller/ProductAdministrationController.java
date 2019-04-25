@@ -1,71 +1,39 @@
 package com.delivery.controller;
 
-
-import com.delivery.domain.Category;
 import com.delivery.domain.Product;
-import com.delivery.domain.Role;
-import com.delivery.domain.User;
 import com.delivery.domain.dto.ProductDto;
 import com.delivery.service.ProductServiceImplementation;
-import com.delivery.service.UserServiceImplementation;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
 import java.util.Map;
 
 @Controller
 @PreAuthorize("hasAuthority('ADMIN')")
-public class AdminController {
+public class ProductAdministrationController {
 
-    private UserServiceImplementation userServiceImplementation;
     private ProductServiceImplementation productServiceImplementation;
 
-    public AdminController(UserServiceImplementation userServiceImplementation, ProductServiceImplementation productServiceImplementation) {
-        this.userServiceImplementation = userServiceImplementation;
+    public ProductAdministrationController(ProductServiceImplementation productServiceImplementation) {
         this.productServiceImplementation = productServiceImplementation;
     }
 
-    @GetMapping("/user")
-    public String userList(Model model) {
-        model.addAttribute("users", userServiceImplementation.findAll());
-
-        return "userList";
-    }
-
-
-    @GetMapping("/user/{user}")
-    public String userEditForm(@PathVariable User user, Model model) {
-        model.addAttribute("user", user);
-        model.addAttribute("roles", Role.values());
-
-        return "userEdit";
-    }
-
-
-    @PostMapping("/user")
-    public String updateUserRole(
-            @RequestParam String username,
-            @RequestParam Map<String, String> form,
-            @RequestParam("userId") User user
-    ) {
-        userServiceImplementation.updateUserRole(user, username, form);
-
-        return "redirect:/user";
-    }
-
     @GetMapping("/product")
-    public String getProductList(Model model) {
+    public String getAllCurrentProduct(Model model) {
         model.addAttribute("products", productServiceImplementation.findAllCurrentProduct());
 
         return "productList";
     }
 
     @GetMapping("/product/{product}")
-    public String getProductEdit(@PathVariable Product product, Model model) {
+    public String getProductData(@PathVariable Product product, Model model) {
 
         model.addAttribute("product", product);
 
@@ -73,7 +41,7 @@ public class AdminController {
     }
 
     @PostMapping("/product")
-    public String saveProductEdit(@ModelAttribute ProductDto product) {
+    public String updateProductData(@ModelAttribute ProductDto product) {
 
         productServiceImplementation.updateProductInDB(product.buildProduct());
 
@@ -81,7 +49,7 @@ public class AdminController {
     }
 
     @GetMapping("/product/add")
-    public String productAddForm() {
+    public String addNewProduct() {
         return "productAdd";
     }
 

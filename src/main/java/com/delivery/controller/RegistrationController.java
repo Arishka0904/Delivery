@@ -53,32 +53,42 @@ public class RegistrationController {
             model.addAttribute("captchaError", "Fill captcha");
         }
 
+        if (isValidationHasErrors(passwordConfirm, user, bindingResult, model, response)){
+            return "registration";
+        }
+
+        userServiceImplementation.addNewUser(user);
+
+        return "redirect:/login";
+    }
+
+    private boolean isValidationHasErrors(@RequestParam("password2") String passwordConfirm, @Valid User user, BindingResult bindingResult, Model model, CaptchaResponseDto response) {
+
         boolean isConfirmEmpty = StringUtils.isEmpty(passwordConfirm);
+
         if (isConfirmEmpty) {
             model.addAttribute("password2Error", "Password confirmation can not be empty!");
-            return "registration";
+            return true;
         }
 
         if (user.getPassword() != null && !user.getPassword().equals(passwordConfirm)) {
             model.addAttribute("passwordError", "Password are different!");
-            return "registration";
+            return true;
         }
         if (bindingResult.hasErrors() || !response.isSuccess()) {
             Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
             model.mergeAttributes(errors);
-            return "registration";
+            return true;
         }
         if (userServiceImplementation.isUserExist(user)) {
             model.addAttribute("usernameError", "User already exists!");
-            return "registration";
+            return true;
         }
         if (userServiceImplementation.isEmailExist(user)) {
             model.addAttribute("emailError", "Email already exists!");
-            return "registration";
+            return true;
         }
-        userServiceImplementation.addUser(user);
-
-        return "redirect:/login";
+        return false;
     }
 
     @GetMapping("/activate/{code}")

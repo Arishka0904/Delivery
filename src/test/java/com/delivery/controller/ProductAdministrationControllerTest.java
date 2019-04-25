@@ -26,50 +26,26 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @TestPropertySource("/application-test.properties")
 @WithUserDetails("admin")
-@Sql(value = {"/create-user-before.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-@Sql(value = {"/create-user-after.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 @Sql(value = {"/create-product-before.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(value = {"/create-product-after.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-public class AdminControllerTest {
+@Sql(value = {"/create-user-before.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(value = {"/create-user-after.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+public class ProductAdministrationControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
-    private AdminController adminController;
+    private ProductAdministrationController productAdministrationController;
 
     @Test
     public void shouldContainsAdminNavbar() throws Exception {
         this.mockMvc.perform(get("/"))
                 .andDo(print())
                 .andExpect(authenticated())
-                .andExpect(xpath("//*[@id=\"products\"]").string("Products"))
-                .andExpect(xpath("//*[@id=\"users\"]").string("User list"));
+                .andExpect(xpath("//*[@id=\"products\"]").string("Products"));
     }
 
-    @Test
-    public void shouldContainsUserList() throws Exception {
-        this.mockMvc.perform(get("/user"))
-                .andDo(print())
-                .andExpect(content().string(containsString("List of users")))
-                .andExpect(xpath("//*[@id=\"userList\"]/tr").nodeCount(2));
-    }
-
-    @Test
-    public void shouldContainsTwoRoles() throws Exception {
-        this.mockMvc.perform(get("/user"))
-                .andDo(print())
-                .andExpect(content().string(containsString("List of users")))
-                .andExpect(xpath("//*[@id=\"userList\"]/tr[2][@data-id=1]/td[2]").string(containsString("ADMIN")))
-                .andExpect(xpath("//*[@id=\"userList\"]/tr[2][@data-id=1]/td[2]").string(containsString("USER")));
-    }
-
-    @Test
-    public void shouldNotContainsAdminChecked() throws Exception {
-        this.mockMvc.perform(get("/user/2"))
-                .andDo(print())
-                .andExpect(xpath("//*[@id=\"ADMIN\"]").booleanValue(false));
-    }
 
     @Test
     public void shouldContainsCurrentProductList() throws Exception {
