@@ -1,6 +1,6 @@
-insert into user (id, username, password, active, email)
-values (1, 'admin', '123', true, 'arishka0904@gmail.com' );
-
-
-insert into user_role (user_id, roles)
-values (1, 'USER'), (1, 'ADMIN');
+insert into product (product_name, category, price, depth, height, width, weight, quantity_on_pallet, quantity_in_warehouse, current_version, product_status)
+values ('product1', 'FIRST_CATEGORY', 100, 50, 50, 50, 8, 8, 100, b'1', 0);
+insert into product (product_name, category, price, depth, height, width, weight, quantity_on_pallet, quantity_in_warehouse, current_version, product_status)
+values ('product2', 'SECOND_CATEGORY', 50, 30, 50, 40, 5, 10, 150, b'1', 0);
+insert into product (product_name, category, price, depth, height, width, weight, quantity_on_pallet, quantity_in_warehouse, current_version, product_status)
+values ('product3', 'THIRD_CATEGORY', 80, 40, 60, 50, 6, 8, 200, b'1', 0);

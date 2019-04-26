@@ -1,6 +1,6 @@
-package me.zhulin.onlineshopping.exception;
+package com.delivery.exception;
 
-import me.zhulin.onlineshopping.enums.ResultEnum;
+import com.delivery.enums.ResultEnum;
 
 /**
  * Created By Zhu Lin on 3/10/2018.

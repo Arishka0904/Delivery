@@ -6,18 +6,22 @@ import java.util.List;
 import java.util.Map;
 
 public interface UserService {
-    public void addNewUser(User user);
+    void addNewUser(User user);
 
-    public boolean isUserExist(User user);
+    User findByEmail(String email);
 
-    public boolean isEmailExist(User user);
+    User findByName(String name);
 
-    public boolean activateUser(String code);
+    boolean isUserExist(User user);
 
-    public List<User> findAll();
+    boolean isEmailExist(User user);
 
-    public void updateUserRole(User user, String username, Map<String, String> form);
+    boolean activateUser(String code);
 
-    public void updateProfile(User user, String password, String email);
+    List<User> findAll();
+
+    void updateUserRole(User user, String username, Map<String, String> form);
+
+    void updateProfile(User user, String password, String email);
 
 }

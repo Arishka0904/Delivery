@@ -1,15 +1,14 @@
 <html xmlns="http://www.w3.org/1999/html">
-<#include "../partials/_header.ftl">
+<#include "../parts/_header.ftl">
 <body>
 <div class="container ">
-    <#include "../partials/_nav.ftl">
+    <#include "../parts/navbar.ftl">
     <h1 align="center" class="display-4 mb-5">My Cart</h1>
 
 <#--Cart Detail Table-->
     <table class="table table-striped text-center">
         <thead>
         <tr>
-            <th scope="col">Photo</th>
             <th scope="col">Name</th>
             <th scope="col">Price</th>
             <th scope="col">Quantity</th>
@@ -21,23 +20,20 @@
         <tbody>
         <#list items as item>
         <tr>
-            <th class="align-middle" scope="row">
-                <img height="100px" src="${item.getProductInfo().getProductIcon()}">
-            </th>
-            <td class="align-middle">${item.getProductInfo().getProductName()}</td>
-            <td class="align-middle">${item.getProductInfo().getProductPrice()?string.currency}</td>
+            <td class="align-middle">${item.getProductName()}</td>
+            <td class="align-middle">${item.getPrice()?string.currency}</td>
             <td class="align-middle">
-                <a href="/cart/change?product_id=${item.getProductInfo().getProductId()}&quantity=${item.getQuantity()-1}"><i
+                <a href="/cart/change?product_id=${item.getId()}&quantity=${item.getQuantity()-1}"><i
                         class="fas fa-minus"></i></a>
-                <input min="1" id="${item.getProductInfo().getProductId()}"
-                       max="${(productInfo.getProductStock())!"1"}" type="text" size="5" value="${item.getQuantity()}"
+                <input min="1" id="${item.getId()}"
+                       max="${(product.getQuantityInWarehouse())!"1"}" type="text" size="5" value="${item.getQuantity()}"
                        name='count' onkeyup="change(this)">
-                <a href="/cart/change?product_id=${item.getProductInfo().getProductId()}&quantity=${item.getQuantity()+1}">
+                <a href="/cart/change?product_id=${item.getId()}&quantity=${item.getQuantity()+1}">
                     <i class="fas fa-plus"></i></a>
             </td>
-            <td class="align-middle">${(item.getProductInfo().getProductPrice() * item.getQuantity())?string.currency}</td>
+            <td class="align-middle">${(item.getPrice() * item.getQuantity())?string.currency}</td>
             <td class="align-middle">
-                <a href="/cart/remove?product_id=${item.getProductInfo().getProductId()}">Remove</a>
+                <a href="/cart/remove?product_id=${item.getId()}">Remove</a>
             </td>
 
         </tr>
@@ -51,6 +47,8 @@
             <h5 style="display: inline;">Total: ${total?string.currency}</h5>
             <form action ="/cart/checkout" method="post">
                 <button type="submit" class="btn btn-warning float-right">Checkout</button>
+                <input type="text" name="address" id="address" placeholder="Enter Address" required/>
+                <input type="hidden" value="${_csrf.token}" name="_csrf"/>
             </form>
         </div>
     <#else>
@@ -63,7 +61,7 @@
 
 
 </div>
-<#include "../partials/_footer.ftl">
+<#--<#include "../partials/_footer.ftl">-->
 </body>
 <script>
     var timeout = null;

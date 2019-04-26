@@ -37,12 +37,14 @@
 
         </ul>
 
+        <#if !user?? || !user.isAdmin()  >
         <div class="navbar-text mr-3">
             <a class="nav-link " href="/cart">
                 <i class="fa fa-shopping-cart"></i>
                 Cart
             </a>
         </div>
+        </#if>
 
         <#if user??>
             <div class="navbar-text mr-3">

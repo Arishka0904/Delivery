@@ -1,12 +1,13 @@
-package me.zhulin.onlineshopping.enums;
+package com.delivery.enums;
 
+import com.delivery.domain.CodeEnum;
 import lombok.Getter;
 
 /**
  * Created By Zhu Lin on 3/9/2018.
  */
 @Getter
-public enum ProductStatusEnum implements CodeEnum{
+public enum ProductStatusEnum implements CodeEnum {
     UP(0, "Available"),
     DOWN(1, "Unavailable")
     ;

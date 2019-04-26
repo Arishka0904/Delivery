@@ -1,6 +1,7 @@
 package com.delivery.domain;
 
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -63,4 +64,7 @@ public class Product {
     private int quantityInWarehouse;
 
     private boolean currentVersion;
+
+    @ColumnDefault("0")
+    private Integer productStatus;
 }

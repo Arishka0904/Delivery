@@ -1,12 +1,14 @@
 package com.delivery.domain;
 
+import com.delivery.enums.OrderStatusEnum;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
+import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -14,24 +16,43 @@ import java.util.Map;
 @ToString(of = {"id", "address", "status", "createTime"})
 @NoArgsConstructor
 @Entity
-@Table(name = "product")
-public class Order {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@Table(name = "orders")
+public class Order extends AbstractDomainClass {
 
     private String address;
 
-    private OrderStatusEnum status;
+    @NotNull
+    @ColumnDefault("0")
+    private Integer status;
 
-    @CreationTimestamp
-    private LocalDateTime createTime;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @ElementCollection
-    @CollectionTable(name = "order_product",
-            joinColumns = @JoinColumn(name = "order_id"))
-    @MapKeyJoinColumn(name = "product_id")
-    @Column(name = "count")
-    private Map<Product, Integer> products = new HashMap<>();
+    public Order(String address, @NotNull Integer status, User user) {
+        this.address = address;
+        this.status = status;
+        this.user = user;
+    }
+
+    //    @CreationTimestamp
+//    @Column(name = "create_time")
+//    private LocalDateTime createTime;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "order", orphanRemoval = true)
+    private List<ProductInOrder> productsInOrder = new ArrayList<>();
+
+    // Total Amount
+    @NotNull
+    private BigDecimal orderAmount;
+
+//    @ElementCollection
+//    @CollectionTable(name = "order_product",
+//            joinColumns = @JoinColumn(name = "order_id"))
+//    @MapKeyJoinColumn(name = "product_id")
+//    @Column(name = "quantity")
+//    private Map<Product, Integer> products = new HashMap<>();
+
+
 
 }

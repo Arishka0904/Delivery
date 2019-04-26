@@ -2,7 +2,7 @@
 
 <@c.page>
     List of product
-    <form method="post" action="/cart">
+    <#--<form method="post" action="/cart">-->
     <table class="table">
         <thead>
         <tr>
@@ -28,9 +28,10 @@
                 <td>${product.weight}</td>
                 <td>${product.quantityOnPallet}</td>
                 <td>${product.quantityInWarehouse}</td>
-                <td>
-                    <button type="submit" class="btn btn-primary"> Add to Cart</button>
-                </td>
+                <td><a href="/product/show/${product.id}">Get it</a></td>
+                <#--<td>-->
+                    <#--<button type="submit" class="btn btn-primary"> Add to Cart</button>-->
+                <#--</td>-->
             </tr>
         </#list>
         </tbody>

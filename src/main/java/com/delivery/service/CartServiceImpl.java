@@ -1,104 +1,98 @@
-package me.zhulin.onlineshopping.service.impl;
+package com.delivery.service;
 
-import me.zhulin.onlineshopping.advice.CurrentUserControllerAdvice;
-import me.zhulin.onlineshopping.dto.Item;
-import me.zhulin.onlineshopping.entity.OrderMain;
-import me.zhulin.onlineshopping.entity.ProductInOrder;
-import me.zhulin.onlineshopping.entity.ProductInfo;
-import me.zhulin.onlineshopping.entity.User;
-import me.zhulin.onlineshopping.enums.ProductStatusEnum;
-import me.zhulin.onlineshopping.enums.ResultEnum;
-import me.zhulin.onlineshopping.exception.MyException;
-import me.zhulin.onlineshopping.form.ItemForm;
-import me.zhulin.onlineshopping.repository.OrderRepository;
-import me.zhulin.onlineshopping.service.CartService;
-import me.zhulin.onlineshopping.service.ProductService;
+import com.delivery.domain.Order;
+import com.delivery.domain.Product;
+import com.delivery.domain.ProductInOrder;
+import com.delivery.domain.User;
+import com.delivery.domain.dto.ProductDto;
+import com.delivery.enums.ProductStatusEnum;
+import com.delivery.enums.ResultEnum;
+import com.delivery.exception.MyException;
+import com.delivery.form.ItemForm;
+import com.delivery.repository.OrderRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
-/**
- * Created By Zhu Lin on 3/11/2018.
- */
 @Service
-@Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
+//@Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class CartServiceImpl implements CartService {
     @Autowired
     ProductService productService;
     @Autowired
-    OrderRepository orderRepository;
+    OrderRepo orderRepo;
 
-    private Map<String, Item> map = new LinkedHashMap<>();
+    private Map<Long, ProductDto> map = new LinkedHashMap<>();
 
     @Override
     public void addItem(ItemForm itemForm) {
-        ProductInfo productInfo = productService.findOne(itemForm.getProductId());
+        Long id = Long.parseLong(itemForm.getProductId());
+        Product product = productService.findById(id);
 
-        if (productInfo.getProductStatus() == ProductStatusEnum.DOWN.getCode()) {
+        if (product.getProductStatus() == ProductStatusEnum.DOWN.getCode()) {
             throw new MyException(ResultEnum.PRODUCT_OFF_SALE);
         }
 
         // Check whether is in the cart
-        if(map.containsKey(itemForm.getProductId())){
+        if(map.containsKey(id)){
             // Update quantity
-            Integer old = map.get(itemForm.getProductId()).getQuantity();
+            Integer old = map.get(id).getQuantity();
             itemForm.setQuantity(old + itemForm.getQuantity());
         }
 
-        map.put(itemForm.getProductId(), new Item(productInfo, itemForm.getQuantity()));
+        map.put(id, new ProductDto(product, itemForm.getQuantity()));
     }
 
     @Override
-    public void removeItem(String productId) {
+    public void removeItem(Long productId) {
         if (!map.containsKey(productId)) throw new MyException(ResultEnum.PRODUCT_NOT_IN_CART);
         map.remove(productId);
     }
 
     @Override
-    public void updateQuantity(String productId, Integer quantity) {
+    public void updateQuantity(Long productId, Integer quantity) {
         if (!map.containsKey(productId)) throw new MyException(ResultEnum.PRODUCT_NOT_IN_CART);
-        Item item = map.get(productId);
-        Integer max = item.getProductInfo().getProductStock();
+        ProductDto item = map.get(productId);
+        Integer max = item.getQuantityInWarehouse();
         if(quantity > 0) {
             item.setQuantity(quantity > max ? max : quantity);
         }
     }
 
     @Override
-    public Collection<Item> findAll() {
+    public Collection<ProductDto> findAll() {
         return map.values();
     }
 
     @Override
     @Transactional
-    public void checkout(User user) {
-        OrderMain orderMain = new OrderMain(user);
-        for (String productId : map.keySet()) {
-            Item item = map.get(productId);
-            ProductInOrder productInOrder = new ProductInOrder(item.getProductInfo(), item.getQuantity());
-            productInOrder.setOrderMain(orderMain);
-            orderMain.getProducts().add(productInOrder);
-            productService.decreaseStock(productId, item.getQuantity());
+    public void checkout(User user, String address) {
+        Order order = new Order(address, 0, user);
+        for (Long productId : map.keySet()) {
+            ProductDto productDto = map.get(productId);
+            ProductInOrder productInOrder = new ProductInOrder(productDto.buildProduct(),
+                    productDto.getQuantity());
+            productInOrder.setOrder(order);
+            order.getProductsInOrder().add(productInOrder);
+            productService.decreaseQuantityInWarehouse(productId, productDto.getQuantity());
         }
-        orderMain.setOrderAmount(getTotal());
-        orderRepository.save(orderMain);
+        order.setOrderAmount(getTotal());
+        orderRepo.save(order);
         map.clear();
     }
 
     @Override
     public BigDecimal getTotal() {
-        Collection<Item> items = findAll();
+        Collection<ProductDto> productDtos = findAll();
         BigDecimal total = new BigDecimal(0);
-        for (Item item : items) {
-            BigDecimal price = item.getProductInfo().getProductPrice();
-            BigDecimal quantity = new BigDecimal(item.getQuantity());
+        for (ProductDto productDto : productDtos) {
+            BigDecimal price = productDto.getPrice();
+            BigDecimal quantity = new BigDecimal(productDto.getQuantity());
             total = total.add(price.multiply(quantity));
         }
         return total;

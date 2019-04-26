@@ -1,4 +1,4 @@
-package com.prokopchuk.springmvc.domain;
+package com.delivery.domain;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -6,8 +6,8 @@ import java.util.Date;
 @MappedSuperclass
 public class AbstractDomainClass implements DomainObject {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
 
     @Version
     private Integer version;
@@ -16,12 +16,12 @@ public class AbstractDomainClass implements DomainObject {
     private Date lastUpdated;
 
     @Override
-    public Integer getId() {
+    public Long getId() {
         return this.id;
     }
 
     @Override
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

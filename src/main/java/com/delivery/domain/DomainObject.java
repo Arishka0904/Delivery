@@ -1,6 +1,6 @@
-package com.prokopchuk.springmvc.domain;
+package com.delivery.domain;
 
 public interface DomainObject {
-    Integer getId();
-    void setId(Integer id);
+    Long getId();
+    void setId(Long id);
 }

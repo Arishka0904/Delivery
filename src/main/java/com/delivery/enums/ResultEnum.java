@@ -1,12 +1,10 @@
-package me.zhulin.onlineshopping.enums;
+package com.delivery.enums;
 
 import lombok.Getter;
 
-/**
- * Created By Zhu Lin on 3/10/2018.
- */
+
 @Getter
-public enum ResultEnum  {
+public enum ResultEnum {
 
     PARAM_ERROR(1, "Parameter Error!"),
     PRODUCT_NOT_EXIST(10, "Product does not exit!"),

@@ -5,5 +5,4 @@ package com.delivery.domain;
  */
 public interface CodeEnum {
     Integer getCode();
-
 }

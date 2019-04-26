@@ -12,7 +12,7 @@ import javax.persistence.OneToOne;
 //@ToString(of = {"id", "product", "quantity"})
 @NoArgsConstructor
 @Entity
-public class OrderDetail extends AbstractDomainClass {
+public class ProductInOrder extends AbstractDomainClass {
 
     @OneToOne
     private Product product;
@@ -21,4 +21,9 @@ public class OrderDetail extends AbstractDomainClass {
 
     @ManyToOne
     private Order order;
+
+    public ProductInOrder(Product product, Integer quantity) {
+        this.product = product;
+        this.quantity = quantity;
+    }
 }
