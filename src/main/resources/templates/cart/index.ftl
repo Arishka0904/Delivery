@@ -1,5 +1,6 @@
 <html xmlns="http://www.w3.org/1999/html">
 <#include "../parts/_header.ftl">
+<#setting locale="en_US">
 <body>
 <div class="container ">
     <#include "../parts/navbar.ftl">
@@ -61,7 +62,6 @@
 
 
 </div>
-<#--<#include "../partials/_footer.ftl">-->
 </body>
 <script>
     var timeout = null;

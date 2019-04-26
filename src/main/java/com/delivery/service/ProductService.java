@@ -2,7 +2,6 @@ package com.delivery.service;
 
 import com.delivery.domain.Category;
 import com.delivery.domain.Product;
-import com.delivery.domain.User;
 
 import java.util.List;
 

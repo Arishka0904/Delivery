@@ -1,5 +1,6 @@
 <html>
 <#include "../parts/_header.ftl">
+<#setting locale="en_US">
 <body>
 <div class="container ">
     <#include "../parts/navbar.ftl">

@@ -2,9 +2,6 @@ package com.delivery.exception;
 
 import com.delivery.enums.ResultEnum;
 
-/**
- * Created By Zhu Lin on 3/10/2018.
- */
 public class MyException extends RuntimeException{
 
     private Integer code;

@@ -8,8 +8,8 @@ import javax.persistence.OneToOne;
 
 @Getter
 @Setter
-//@EqualsAndHashCode(exclude = {"order"})
-//@ToString(of = {"id", "product", "quantity"})
+@EqualsAndHashCode(exclude = {"order"})
+@ToString(of = {"id", "product", "quantity"})
 @NoArgsConstructor
 @Entity
 public class ProductInOrder extends AbstractDomainClass {

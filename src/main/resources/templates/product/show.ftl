@@ -1,8 +1,9 @@
 <html>
 <#include "../parts/_header.ftl">
+<#setting locale="en_US">
 <body>
 <div class="container  ">
-    <#--<#include "../partials/_nav.ftl">-->
+    <#include "../parts/navbar.ftl">
     <h1 align="center" class="display-4 mb-5">Product Detail</h1>
     <div class="row text-center justify-content-center">
         <div class="col-lg-6 ">

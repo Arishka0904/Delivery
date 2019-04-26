@@ -8,10 +8,8 @@ import java.math.BigDecimal;
 
 @Getter
 @Setter
-//@EqualsAndHashCode(exclude = {"quantityInWarehouse", "isCurrentVersion"})
 @ToString(of = {"id", "productName"})
 @NoArgsConstructor
-//@Data
 public class ProductDto {
 
     private Long id;
