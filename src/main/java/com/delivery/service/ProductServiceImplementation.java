@@ -2,8 +2,11 @@ package com.delivery.service;
 
 import com.delivery.domain.Category;
 import com.delivery.domain.Product;
+import com.delivery.enums.ResultEnum;
+import com.delivery.exception.MyException;
 import com.delivery.repository.ProductRepo;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,6 +22,11 @@ public class ProductServiceImplementation implements ProductService {
     @Override
     public List<Product> findAllCurrentProduct() {
         return productRepo.findAllByCurrentVersionTrue();
+    }
+
+    @Override
+    public Product findById(Long id) {
+        return productRepo.findProductById(id);
     }
 
     @Override
@@ -50,10 +58,7 @@ public class ProductServiceImplementation implements ProductService {
 
         Product productFromDb = productRepo.findByProductName(product.getProductName());
 
-        if (productFromDb == null) {
-            return false;
-        }
-        return true;
+        return productFromDb != null;
     }
 
     @Override
@@ -61,4 +66,29 @@ public class ProductServiceImplementation implements ProductService {
 
         return productRepo.findAllByCategoryAndCurrentVersionTrue(category);
     }
+
+    @Override
+    @Transactional
+    public void decreaseQuantityInWarehouse(Long productId, int amount) {
+        Product product = findById(productId);
+        if (product == null) throw new MyException(ResultEnum.PRODUCT_NOT_EXIST);
+
+        int update = product.getQuantityInWarehouse() - amount;
+        if(update <= 0) throw new MyException(ResultEnum.PRODUCT_NOT_ENOUGH );
+
+        product.setQuantityInWarehouse(update);
+        productRepo.save(product);
+    }
+
+    @Override
+    public void increaseQuantityInWarehouse(Long productId, int amount) {
+        Product product = findById(productId);
+        if (product == null) throw new MyException(ResultEnum.PRODUCT_NOT_EXIST);
+
+        int update = product.getQuantityInWarehouse() + amount;
+        product.setQuantityInWarehouse(update);
+        productRepo.save(product);
+    }
+
+
 }

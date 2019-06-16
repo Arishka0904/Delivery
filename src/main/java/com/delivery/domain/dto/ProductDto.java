@@ -8,7 +8,6 @@ import java.math.BigDecimal;
 
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = {"quantityInWarehouse", "isCurrentVersion"})
 @ToString(of = {"id", "productName"})
 @NoArgsConstructor
 public class ProductDto {
@@ -24,6 +23,20 @@ public class ProductDto {
     private int quantityOnPallet;
     private int quantityInWarehouse;
     private boolean currentVersion;
+    private int quantity;
+
+    public ProductDto(Product product, int quantity) {
+        this.id = product.getId();
+        this.productName = product.getProductName();
+        this.category = product.getCategory();
+        this.price = product.getPrice();
+        this.weight = product.getWeight();
+        this.depth = product.getHeight();
+        this.quantityOnPallet = product.getQuantityOnPallet();
+        this.quantityInWarehouse = product.getQuantityInWarehouse();
+        this.currentVersion = product.isCurrentVersion();
+        this.quantity = quantity;
+    }
 
     public Product buildProduct() {
         Product product = new Product();
@@ -40,4 +53,6 @@ public class ProductDto {
         product.setCurrentVersion(currentVersion);
         return product;
     }
+
+
 }

@@ -2,7 +2,6 @@
 
 <@c.page>
     List of product
-
     <table class="table">
         <thead>
         <tr>
@@ -32,5 +31,9 @@
 
     <input type="hidden" value="${_csrf.token}" name="_csrf"/>
 
-    <td><a class="form-group row mb-5" href="/product/add">Add new product</a></td>
+    <td><a class="form-group row mb-5" href="/cart">Add new product</a></td>
+        <#--<td><button type="submit"-->
+                    <#--class="btn btn-primary btn-lg <#if product.getProductStatus()==1>disabled</#if>">-->
+            <#--Add to Cart-->
+        <#--</button></td>-->
 </@c.page>

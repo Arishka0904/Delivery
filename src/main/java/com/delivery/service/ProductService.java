@@ -2,20 +2,26 @@ package com.delivery.service;
 
 import com.delivery.domain.Category;
 import com.delivery.domain.Product;
-import com.delivery.domain.User;
 
 import java.util.List;
 
 public interface ProductService {
 
-    public List<Product> findAllCurrentProduct();
+    List<Product> findAllCurrentProduct();
 
-    public void updateProductInDB(Product product);
+    Product findById(Long id);
 
-    public void addNewProductInDB(Product product);
+    void updateProductInDB(Product product);
 
-    public boolean isProductExist(Product product);
+    void addNewProductInDB(Product product);
 
-    public List<Product> findCurrentProductByCategory(Category category);
+    boolean isProductExist(Product product);
+
+    List<Product> findCurrentProductByCategory(Category category);
+
+    void decreaseQuantityInWarehouse(Long productId, int amount);
+
+    //decrease stock
+    void increaseQuantityInWarehouse(Long productId, int amount);
 
 }

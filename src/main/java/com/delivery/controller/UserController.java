@@ -21,7 +21,6 @@ public class UserController {
         this.userServiceImplementation = userServiceImplementation;
     }
 
-
     @GetMapping("profile")
     public String getProfile(Model model, @AuthenticationPrincipal User user){
         model.addAttribute("username", user.getUsername());

@@ -52,22 +52,26 @@ public class UserServiceImplementation implements UserDetailsService, UserServic
     }
 
     @Override
+    public User findByEmail(String email) {
+        return userRepo.findByEmail(email);
+    }
+
+    @Override
+    public User findByName(String name) {
+        return userRepo.findByUsername(name);
+    }
+
+    @Override
     public boolean isUserExist(User user) {
         User userFromDb = userRepo.findByUsername(user.getUsername());
 
-        if (userFromDb == null) {
-            return false;
-        }
-        return true;
+        return userFromDb != null;
     }
 
     @Override
     public boolean isEmailExist(User user) {
         User userFromDb = userRepo.findByEmail(user.getEmail());
-        if (userFromDb == null) {
-            return false;
-        }
-        return true;
+        return userFromDb != null;
     }
 
     private void sendMessage(User user) {
