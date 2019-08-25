@@ -4,9 +4,11 @@ import com.delivery.domain.Category;
 import com.delivery.domain.Product;
 import com.delivery.repository.ProductRepo;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Transactional
 @Service
 public class ProductServiceImplementation implements ProductService {
 
@@ -16,6 +18,7 @@ public class ProductServiceImplementation implements ProductService {
         this.productRepo = productRepo;
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Product> findAllCurrentProduct() {
         return productRepo.findAllByCurrentVersionTrue();
@@ -45,6 +48,7 @@ public class ProductServiceImplementation implements ProductService {
         productRepo.save(product);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public boolean isProductExist(Product product) {
 
@@ -56,6 +60,7 @@ public class ProductServiceImplementation implements ProductService {
         return true;
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Product> findCurrentProductByCategory(Category category) {
 
