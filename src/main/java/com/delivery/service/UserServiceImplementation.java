@@ -8,11 +8,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Transactional
 @Service
 public class UserServiceImplementation implements UserDetailsService, UserService {
 
@@ -27,7 +29,7 @@ public class UserServiceImplementation implements UserDetailsService, UserServic
         this.passwordEncoder = passwordEncoder;
     }
 
-
+    @Transactional(readOnly = true)
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepo.findByUsername(username);
@@ -51,6 +53,7 @@ public class UserServiceImplementation implements UserDetailsService, UserServic
         sendMessage(user);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public User findByEmail(String email) {
         return userRepo.findByEmail(email);
@@ -68,6 +71,7 @@ public class UserServiceImplementation implements UserDetailsService, UserServic
         return userFromDb != null;
     }
 
+    @Transactional(readOnly = true)
     @Override
     public boolean isEmailExist(User user) {
         User userFromDb = userRepo.findByEmail(user.getEmail());
@@ -87,6 +91,7 @@ public class UserServiceImplementation implements UserDetailsService, UserServic
         }
     }
 
+    @Transactional(readOnly = true)
     @Override
     public boolean activateUser(String code) {
         User user = userRepo.findByActivationCode(code);
@@ -102,6 +107,7 @@ public class UserServiceImplementation implements UserDetailsService, UserServic
         return true;
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<User> findAll() {
         return userRepo.findAll();
