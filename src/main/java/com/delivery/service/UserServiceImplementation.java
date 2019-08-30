@@ -32,12 +32,9 @@ public class UserServiceImplementation implements UserDetailsService, UserServic
     @Transactional(readOnly = true)
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepo.findByUsername(username);
+        return userRepo.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found!"));
 
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found!");
-        }
-        return user;
     }
 
     @Override
@@ -56,12 +53,9 @@ public class UserServiceImplementation implements UserDetailsService, UserServic
     @Transactional(readOnly = true)
     @Override
     public boolean isUserExist(User user) {
-        User userFromDb = userRepo.findByUsername(user.getUsername());
 
-        if (userFromDb == null) {
-            return false;
-        }
-        return true;
+        return userRepo.findByUsername(user.getUsername()).isPresent();
+
     }
 
     @Transactional(readOnly = true)

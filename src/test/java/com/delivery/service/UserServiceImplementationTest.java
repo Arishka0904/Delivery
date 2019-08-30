@@ -40,7 +40,8 @@ public class UserServiceImplementationTest {
     @Test
     void shouldThrowUsernameNotFoundException() throws UsernameNotFoundException {
 
-        when(userRepo.findByUsername("User2")).thenReturn(null);
+
+        when(userRepo.findByUsername("User2")).thenReturn(Optional.empty());
         assertThrows(UsernameNotFoundException.class, () -> userService.loadUserByUsername("User2"));
     }
 
@@ -63,14 +64,14 @@ public class UserServiceImplementationTest {
     @Test
     void shouldReturnTrueIfUserExist() {
 
-        when(userRepo.findByUsername("User1")).thenReturn(user);
+        when(userRepo.findByUsername("User1")).thenReturn(Optional.of(user));
         Assert.assertTrue(userService.isUserExist(user));
     }
 
     @Test
-    void shouldReturnFalseIfUserExist() {
+    void shouldReturnFalseIfUserDoesNotExist() {
 
-        when(userRepo.findByUsername("User1")).thenReturn(null);
+        when(userRepo.findByUsername("User2")).thenReturn(null);
         Assert.assertFalse(userService.isUserExist(user));
     }
 
